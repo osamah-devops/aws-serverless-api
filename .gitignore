@@ -1,0 +1,21 @@
+# Node
+node_modules/
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
