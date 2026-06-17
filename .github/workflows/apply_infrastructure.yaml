@@ -63,7 +63,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./infrastructure
-        run: terraform apply -input=false infrastructure/tfplan
+        run: terraform apply -input=false tfplan
 
       - name: Delete plan from S3 (cleanup)
         if: always()
