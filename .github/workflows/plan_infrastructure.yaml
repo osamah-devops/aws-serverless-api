@@ -40,8 +40,16 @@ jobs:
             - name: Terraform Plan
               run: terraform plan -out=tfplan -input=false
               working-directory: ./infrastructure
+
+            - name: Compute infrastructure hash
+              id: infra_hash
+              shell: bash
+              run: |
+                set -euo pipefail
+                HASH=$(git ls-files infrastructure | sort | xargs sha256sum | sha256sum | awk '{print $1}')
+                echo "hash=$HASH" >> "$GITHUB_OUTPUT"
             
             - name: Upload plan to S3
               run: |
                 aws s3 cp infrastructure/tfplan \
-                  s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.tfplan
+                  s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ steps.infra_hash.outputs.hash }}.tfplan
