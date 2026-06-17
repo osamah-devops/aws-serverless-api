@@ -47,3 +47,5 @@ jobs:
               run: |
                 aws s3 cp infrastructure/tfplan \
                   s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.tfplan
+                aws s3 cp infrastructure/lambda.zip \
+                  s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.zip
