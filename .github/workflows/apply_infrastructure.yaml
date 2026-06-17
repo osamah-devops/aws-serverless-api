@@ -34,10 +34,18 @@ jobs:
         working-directory: ./infrastructure
         run: terraform init
 
+      - name: Compute infrastructure hash
+        id: infra_hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          HASH=$(git ls-files infrastructure | sort | xargs sha256sum | sha256sum | awk '{print $1}')
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+
       - name: Download plan from S3
         run: |
           aws s3 cp \
-            s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.tfplan \
+            s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ steps.infra_hash.outputs.hash }}.tfplan \
             infrastructure/tfplan
 
       - name: Terraform Apply
@@ -48,4 +56,4 @@ jobs:
         if: always()
         run: |
           aws s3 rm \
-            s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.tfplan
+            s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ steps.infra_hash.outputs.hash }}.tfplan
