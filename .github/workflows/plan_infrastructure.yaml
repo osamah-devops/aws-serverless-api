@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
             
             - name: Set up Terraform
               uses: hashicorp/setup-terraform@v4
@@ -26,11 +26,11 @@ jobs:
                 role-to-assume: arn:aws:iam::072754096540:role/aws-serverless-api
                 aws-region: us-east-1    
             - name: Terraform Init
-              run: terraform init -backend-config="path=terraform.tfstate"
+              run: terraform init
               working-directory: ./infrastructure
             
             - name: Terraform fmt
-              run: terraform fmt --recursive -check
+              run: terraform fmt --recursive
               working-directory: ./infrastructure
             
             - name: Terraform Validate
@@ -41,8 +41,7 @@ jobs:
               run: terraform plan -out=tfplan -input=false
               working-directory: ./infrastructure
             
-            - name: Upload Terraform Plan
-              uses: actions/upload-artifact@v4
-              with:
-                name: tfplan
-                path: tfplan
+            - name: Upload plan to S3
+              run: |
+                aws s3 cp infrastructure/tfplan \
+                  s3://my-terraform-state-bucket-aws-serverless-api/plans/${{ github.sha }}.tfplan

@@ -5,9 +5,10 @@ terraform {
             version = ">= 6.0"
         }
     }
-    required_version = "~> 1.15.0"
+
+    required_version = ">= 1.15.0"
     backend "s3" {
-        bucket = "my-terraform-state-bucket"
+        bucket = "my-terraform-state-bucket-aws-serverless-api"
         key    = "project_1/terraform.tfstate"
         region = "us-east-1"
         use_lockfile = true
