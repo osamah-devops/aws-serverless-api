@@ -26,7 +26,7 @@ jobs:
                 role-to-assume: arn:aws:iam::072754096540:role/aws-serverless-api
                 aws-region: us-east-1    
             - name: Terraform Init
-              run: terraform init -backend-config="path=terraform.tfstate"
+              run: terraform init
               working-directory: ./infrastructure
             
             - name: Terraform fmt
