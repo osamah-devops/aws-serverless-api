@@ -44,6 +44,12 @@ resource "aws_apigatewayv2_route" "my_route" {
   target    = "integrations/${aws_apigatewayv2_integration.my_integration.id}"
 }
 
+resource "aws_apigatewayv2_stage" "default" {
+  api_id      = aws_apigatewayv2_api.my_api.id
+  name        = "$default"
+  auto_deploy = true
+}
+
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
