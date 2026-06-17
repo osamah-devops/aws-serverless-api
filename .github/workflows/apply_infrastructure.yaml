@@ -54,12 +54,19 @@ jobs:
 
           echo "Using latest plan: $PLAN_KEY"
           echo "key=$PLAN_KEY" >> "$GITHUB_OUTPUT"
+          echo "zip_key=${PLAN_KEY%.tfplan}.zip" >> "$GITHUB_OUTPUT"
 
       - name: Download plan from S3
         run: |
           aws s3 cp \
             s3://my-terraform-state-bucket-aws-serverless-api/${{ steps.latest_plan.outputs.key }} \
             infrastructure/tfplan
+
+      - name: Download lambda package from S3
+        run: |
+          aws s3 cp \
+            s3://my-terraform-state-bucket-aws-serverless-api/${{ steps.latest_plan.outputs.zip_key }} \
+            infrastructure/lambda.zip
 
       - name: Terraform Apply
         working-directory: ./infrastructure
