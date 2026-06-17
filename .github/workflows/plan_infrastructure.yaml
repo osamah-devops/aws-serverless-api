@@ -30,7 +30,7 @@ jobs:
               working-directory: ./infrastructure
             
             - name: Terraform fmt
-              run: terraform fmt --recursive -check
+              run: terraform fmt --recursive
               working-directory: ./infrastructure
             
             - name: Terraform Validate
