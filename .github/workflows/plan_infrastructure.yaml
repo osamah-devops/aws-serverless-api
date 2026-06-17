@@ -5,6 +5,9 @@ on:
             - main
         paths:
             - 'infrastructure/**'
+permissions:
+  id-token: write
+  contents: read
 jobs:
     plan:
         runs-on: ubuntu-latest
