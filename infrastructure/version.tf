@@ -5,7 +5,11 @@ terraform {
             version = ">= 6.0"
         }
     }
+<<<<<<< HEAD
     required_version = ">= 1.15.0"
+=======
+    required_version = "~> 1.15.0"
+>>>>>>> main
     backend "s3" {
         bucket = "my-terraform-state-bucket"
         key    = "project_1/terraform.tfstate"
