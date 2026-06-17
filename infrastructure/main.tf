@@ -54,11 +54,6 @@ resource "aws_lambda_permission" "apigw" {
   source_arn    = "${aws_apigatewayv2_api.my_api.execution_arn}/*/*"
 }
 
-# Output the API endpoint URL for testing
-output "api_endpoint" {
-  value = aws_apigatewayv2_api.my_api.api_endpoint
-}
-
 resource "aws_iam_role" "lambda_exec_role" {
   name = "lambda_exec_role"
 
