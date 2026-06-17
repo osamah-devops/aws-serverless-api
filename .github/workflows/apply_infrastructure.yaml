@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'infrastructure/**'
+      - '.github/workflows/plan_infrastructure.yaml'
+      - '.github/workflows/apply_infrastructure.yaml'
 
 permissions:
   id-token: write
