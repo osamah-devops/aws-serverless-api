@@ -16,6 +16,12 @@ jobs:
               uses: hashicorp/setup-terraform@v1
               with:
                 terraform_version: 1.0.0
+
+            - name: Configure AWS OIDC
+              uses: aws-actions/configure-aws-credentials@v6-1
+              with:
+                role-to-assume: arn:aws:iam::072754096540:role/aws-serverless-api
+                aws-region: us-east-1    
             - name: Terraform Init
               run: terraform init -backend-config="path=terraform.tfstate"
               working-directory: ./infrastructure
@@ -31,3 +37,9 @@ jobs:
             - name: Terraform Plan
               run: terraform plan -out=tfplan -input=false
               working-directory: ./infrastructure
+            
+            - name: Upload Terraform Plan
+              uses: actions/upload-artifact@v2
+              with:
+                name: tfplan
+                depends-on: Terraform Plan
