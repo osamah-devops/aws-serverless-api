@@ -44,7 +44,7 @@ jobs:
           PLAN_KEY=$(aws s3api list-objects-v2 \
             --bucket my-terraform-state-bucket-aws-serverless-api \
             --prefix plans/ \
-            --query "sort_by(Contents, &LastModified)[-1].Key" \
+            --query "sort_by(Contents[?ends_with(Key, '.tfplan')], &LastModified)[-1].Key" \
             --output text)
 
           if [ -z "$PLAN_KEY" ] || [ "$PLAN_KEY" = "None" ]; then
@@ -77,3 +77,5 @@ jobs:
         run: |
           aws s3 rm \
             s3://my-terraform-state-bucket-aws-serverless-api/${{ steps.latest_plan.outputs.key }}
+          aws s3 rm \
+            s3://my-terraform-state-bucket-aws-serverless-api/${{ steps.latest_plan.outputs.zip_key }}
