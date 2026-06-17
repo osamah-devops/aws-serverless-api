@@ -8,7 +8,8 @@ on:
       - 'infrastructure/**'
       - '.github/workflows/plan_infrastructure.yaml'
       - '.github/workflows/apply_infrastructure.yaml'
-
+      - '.github/workflows/refresh_infrastructure.yaml'
+      - '.github/workflows/destroy_infrastructure.yaml'
 permissions:
   id-token: write
   contents: read
